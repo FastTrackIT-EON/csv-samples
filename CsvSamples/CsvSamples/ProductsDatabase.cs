@@ -1,4 +1,5 @@
 ﻿using CsvHelper;
+using CsvHelper.Configuration;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -11,9 +12,10 @@ namespace CsvSamples
 
         public static void SaveToCsv(string fileName)
         {
+            IWriterConfiguration configuration = new CsvConfiguration(CultureInfo.InvariantCulture);
             using (var writer = new StreamWriter(fileName))
             {
-                using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
+                using (var csv = new CsvWriter(writer, configuration))
                 {
                     csv.WriteRecords(Products);
                 }
@@ -22,9 +24,10 @@ namespace CsvSamples
 
         public static void LoadFromCsv(string fileName)
         {
+            IReaderConfiguration configuration = new CsvConfiguration(CultureInfo.InvariantCulture);
             using (var reader = new StreamReader(fileName))
             {
-                using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
+                using (var csv = new CsvReader(reader, configuration))
                 {
                     IEnumerable<Product> records = csv.GetRecords<Product>();
 
